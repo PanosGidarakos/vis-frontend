@@ -1,12 +1,18 @@
 import React from 'react';
 
 const DataExploration: React.FC = () => {
+  const centerContentStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh', // Ensures the content is centered vertically
+  };
+
   return (
-    <div>
-      <h2>Data Explorationdskfjsdkfjdslkfjsklfsjdfkldsjfdsklfjsdklfjsdklfjsdklfdsjfkld</h2>
-      <p>skljsdfkldsjkldsjfdskljfsdklfjsdklfjsdklfjsdklfjsdfkldsjfdklsjfsdklfjThis is the data exploration page.</p>
+    <div style={centerContentStyle}> {/* Apply inline styles */}
+      <h2>Data Explaration</h2>
     </div>
   );
 };
 
-export default DataExploration; 
+export default DataExploration;

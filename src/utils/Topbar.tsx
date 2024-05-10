@@ -4,6 +4,10 @@ import {Grid} from '@mui/material';
 import SelectOpt from './Select';
 import * as alloptions from './options';
 
+import { useDispatch } from "react-redux";
+import { getData } from "../store/data/dataSlice";
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

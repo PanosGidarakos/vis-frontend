@@ -1,8 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importing useNavigate from react-router-dom
-import { makeStyles, createStyles } from '@mui/styles'; 
-import { Drawer, List, ListItem, ListItemText, Theme,} from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Drawer, List, ListItem, ListItemText, Theme, Grid } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -17,26 +16,25 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     fixedSidebar: {
-      position: 'fixed', // Fix the sidebar position
-      top: 0, // Align the sidebar to the top of the viewport
-      left: 0, // Align the sidebar to the left of the viewport
-      height: '100vh', // Set the sidebar height to fill the viewport height
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      height: '100vh',
     },
   })
 );
 
 const Sidebar: React.FC = () => {
   const classes = useStyles();
-  const navigate = useNavigate(); // Using useNavigate instead of useHistory
+  const navigate = useNavigate();
 
   const handleItemClick = (route: string) => {
-    navigate(route); // Using navigate instead of history.push
+    navigate(route);
   };
 
   return (
     <Drawer
-      className={`${classes.drawer} ${classes.fixedSidebar}`} // Combine drawer and fixedSidebar classes
-
+      className={`${classes.drawer} ${classes.fixedSidebar}`}
       variant="permanent"
       classes={{
         paper: classes.drawerPaper,
@@ -45,10 +43,10 @@ const Sidebar: React.FC = () => {
     >
       <div className={classes.toolbar} />
       <List>
-        <ListItem button key="Dashboard" onClick={() => handleItemClick('/')} >
+        <ListItem button key="Dashboard" onClick={() => handleItemClick('/')}>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button key="Data_Explanation " onClick={() => handleItemClick('/data_explanation')} >
+        <ListItem button key="Data_Explanation" onClick={() => handleItemClick('/data_explanation')}>
           <ListItemText primary="Data Explanation" />
         </ListItem>
         <ListItem button key="Explainability" onClick={() => handleItemClick('/explainability')}>
@@ -61,9 +59,9 @@ const Sidebar: React.FC = () => {
           <ListItemText primary="Settings" />
         </ListItem>
       </List>
-     
     </Drawer>
   );
 };
 
 export default Sidebar;
+
