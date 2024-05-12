@@ -1,26 +1,29 @@
+
+
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { SelectChangeEvent, Switch, Typography } from '@mui/material';
+import {SelectChangeEvent, Switch, Typography } from '@mui/material';
 import { VegaLite } from 'react-vega';
 import SelectHyperparamsModel from './Selectors/SelectHyperparamsModel';
-import { fetchDataForPdpModelSlice} from '../../../store/data/dataSlice';
+import { fetchDataForAleModelSlice, } from '../../../store/data/dataSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
+const AleModel = () => {
+  
 
-const PdpModel = () => {
     const dispatch = useDispatch();
-    const { data, status, error } = useSelector((state) => state.pdpmodel);
-    const [selectedOption, setSelectedOption] = useState("proto");
+    const { data, status, error } = useSelector((state) => state.alemodel);
+
+    const [selectedOption, setSelectedOption] = useState("state");
     const [selectedMark, setSelectedMark] = useState("line");
+    const [selectedMethod, setSelectedMethod] = useState("ale");
 
 
     useEffect(() => {
-        dispatch(fetchDataForPdpModelSlice({ feature1: selectedOption, xaitype: "model", method: "pdp" })); // Dispatch using the new action creator
-    }, [dispatch, selectedOption]);
+        dispatch(fetchDataForAleModelSlice({ feature1: selectedOption, xaitype: "model", method: selectedMethod })); // Dispatch using the new action creator
+    }, [dispatch, selectedOption,selectedMethod]);
 
     // Define subddata conditionally based on the availability of data
-    const subddata = data ? (
-        JSON.parse(data.modelVal)[0].map((key, index) => ({ HP: key, Values: JSON.parse(data.effect)[0][index] }))
-    ) : [];
+    
 
     const handleChange = (e: SelectChangeEvent<string>) => {
         setSelectedOption(e.target.value as string);
@@ -29,7 +32,9 @@ const PdpModel = () => {
     const handleMarkChange = () => {
         setSelectedMark((prevMark) => (prevMark === 'line' ? 'bar' : 'line'));
     };
-    console.log('datapdp model',data);
+    console.log('data ale model',data);
+
+
     return (
         <div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -45,11 +50,11 @@ const PdpModel = () => {
                         spec={{
                             "width": 1000,
                             "height": 300,
-                            "data": { "values": subddata },
+                            "data": { values: JSON.parse(data.ale) }, 
                             "mark": { type: selectedMark },
                             "encoding": {
-                                "x": {"field": "HP", "type": "ordinal"},
-                                "y": {"field": "Values", "type": "quantitative"}
+                                "x": {"field":selectedOption, "type": "nominal"},
+                                "y": {"field": "eff", "type": "quantitative"}
                             }
                         }}
                     />
@@ -67,7 +72,9 @@ const PdpModel = () => {
     );
 };
 
-export default PdpModel;
+export default AleModel;
+
+
 
 
 

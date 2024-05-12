@@ -64,15 +64,6 @@ export default function InteractiveTablePlugin(props: InteractiveTablePluginProp
   }
 
   const renderSubTable = () => {
-    // const subData = [
-    //   { key: 1, Model__learning_rate: 0.1, Model__max_depth: 2, Model__min_child_weight: 1, Model__n_estimators: 75, 'preprocessor__num__scaler': 'StandardScaler()', BinaryLabel: 1 },
-    //   { key: 2, Model__learning_rate: 0.01, Model__max_depth: 8, Model__min_child_weight: 1, Model__n_estimators: 75, 'preprocessor__num__scaler': 'StandardScaler()', BinaryLabel: 0 },
-    //   { key: 3, Model__learning_rate: 0.001, Model__max_depth: 2, Model__min_child_weight: 1, Model__n_estimators: 84, 'preprocessor__num__scaler': 'StandardScaler()', BinaryLabel: 0 },
-    //   { key: 4, Model__learning_rate: 0.001, Model__max_depth: 2, Model__min_child_weight: 1, Model__n_estimators: 48, 'preprocessor__num__scaler': 'StandardScaler()', BinaryLabel: 0 },
-    //   { key: 5, Model__learning_rate: 0.001, Model__max_depth: 2, Model__min_child_weight: 1, Model__n_estimators: 81, 'preprocessor__num__scaler': 'StandardScaler()', BinaryLabel: 0 },
-    //   { key: 6, Model__learning_rate: 0.001, Model__max_depth: 2, Model__min_child_weight: 1, Model__n_estimators: 44, 'preprocessor__num__scaler': 'StandardScaler()', BinaryLabel: 0 },
-    // ];
-
     const subData = [
       {
         "Model__learning_rate": 0.1,
@@ -128,7 +119,7 @@ export default function InteractiveTablePlugin(props: InteractiveTablePluginProp
         "BinaryLabel": 0,
         "Cost": "1.5416666666666665"
       }
-    ]
+    ];
 
     const subColumns = [
       {
@@ -225,6 +216,7 @@ export default function InteractiveTablePlugin(props: InteractiveTablePluginProp
   const closeModal = () => {
     setModalVisible(false);
   };
+  console.log('data sto table mesa ',data)
 
   return (
     <div style={{ textAlign: 'center' }}> {/* Set text alignment to center */}
@@ -235,7 +227,7 @@ export default function InteractiveTablePlugin(props: InteractiveTablePluginProp
         columns={convertToAntColumns(columns)}
         pagination={{ position: 'bottom' }} 
       />
-      {renderSubTable()}
+      {renderSubTable(data,columns)}
     </div>
   );
 }

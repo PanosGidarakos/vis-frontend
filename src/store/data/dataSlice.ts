@@ -1,111 +1,114 @@
-// import type { PayloadAction } from "@reduxjs/toolkit"
-// import { createAppSlice } from "../../app/createAppSlice"
-// import type { AppThunk } from "../../app/store"
-// import { fetchData } from "./dataAPI"
-
-// export interface DataSliceState {  
-//     status: "idle" | "loading" | "failed"
-// }
-
-// const initialState: DataSliceState = {
-//     status: 'idle'
-// }
-
-// // If you are not using async thunks you can use the standalone `createSlice`.
-// export const dataSlice = createAppSlice({
-//   name: "data",
-//   // `createSlice` will infer the state type from the `initialState` argument
-//   initialState,
-//   // The `reducers` field lets us define reducers and generate associated actions
-//   reducers: create => ({
-//     getData: create.asyncThunk(
-//       async (query: any) => {
-//         const response = await fetchData(query)
-//         // The value we return becomes the `fulfilled` action payload
-//         return response.data
-//       },
-//       {
-//         pending: state => {
-//           state.status = "loading"
-//         },
-//         fulfilled: (state, action) => {
-//           state.status = "idle"
-//         },
-//         rejected: state => {
-//           state.status = "failed"
-//         },
-//       },
-//     ),
-//   }),
-//   // You can define your selectors here. These selectors receive the slice
-//   // state as their first argument.
-//   selectors: {
-//     selectStatus: data => data.status,
-//   },
-// })
-// console.log(dataSlice);
-
-// // Action creators are generated for each case reducer function.
-// export const { } =
-//   dataSlice.actions
-// console.log(dataSlice.actions);
-
-// // Selectors returned by `slice.selectors` take the root state as their first argument.
-// export const { selectStatus } = dataSlice.selectors
-// console.log(selectStatus);
-
-
-
-// dataSlice.ts
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "./dataAPI";
-import { IQuery } from "../../types/query.model";
 
 interface DataSliceState {  
     status: boolean;
-    data: any; // Define the type of your data here
-    error: string | null; // Define the type of your error here
+    data: any;
+    error: string | null;
 }
 
 const initialState: DataSliceState = {
     status: false,
-    data: null,
+    data: null, 
     error: null,
-}
+};
 
-export const getData = createAsyncThunk(
-    'data/getData',
-    async ({ feature1, xaitype }: { feature1: string; xaitype: string }) => {
-        try {
-            const response = await fetchData(feature1,xaitype);
-            
-            return response.data; // Make sure this matches the structure of your API response
-        } catch (error) {
-            throw new Error('Failed to fetch data');
+// Create a function to generate async thunk for fetching data
+const createFetchDataThunk = (sliceName: string, xaitype: string): any => {
+    return createAsyncThunk(
+        `${sliceName}/fetchData`,
+        async ({ feature1, method,feature2 }: { feature1: string; method: string; feature2: string; }) => {
+            try {
+                const response = await fetchData(feature1, xaitype, method,feature2);
+                return response.data;
+            } catch (error) {
+                throw new Error('Failed to fetch data');
+            }
         }
-    }
-);
+    );
+};
 
+// Create separate thunks for each slice
+export const fetchDataForDataSlice = createFetchDataThunk('data', 'pipeline');
+export const fetchDataForPdpPipelineSlice = createFetchDataThunk('pdppipeline', 'pipeline');
+export const fetchDataForPdpModelSlice = createFetchDataThunk('pdpmodel', 'model');
+export const fetchDataForAlePipelineSlice = createFetchDataThunk('alepipeline', 'pipeline');
+export const fetchDataForAleModelSlice = createFetchDataThunk('alemodel', 'model');
+export const fetchDataForPdp2DPipelineSlice = createFetchDataThunk('pdp2dpipeline', 'pipeline');
+export const fetchDataForCounterfactualsPipelineSlice = createFetchDataThunk('counterfactualspipeline', 'pipeline');
+
+// Create a generic extra reducers function
+const createExtraReducers = (thunk: any) => (builder: any) => {
+    builder
+        .addCase(thunk.pending, (state: DataSliceState) => {
+            state.status = true;
+            state.error = null;
+        })
+        .addCase(thunk.fulfilled, (state: DataSliceState, action: any) => {
+            state.status = false;
+            state.data = action.payload;
+        })
+        .addCase(thunk.rejected, (state: DataSliceState, action: any) => {
+            state.status = false;
+            state.error = action.error.message || null;
+        });
+};
+
+// Create slices using the generic extra reducers function
 export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(getData.pending, (state) => {
-              state.status = true;
-              state.error = null;
-            })
-            .addCase(getData.fulfilled, (state, action) => {
-              state.status = false;
-                state.data = action.payload;
-            })
-            .addCase(getData.rejected, (state, action) => {
-                state.status = false;
-                state.error = action.error.message || null;
-            });
-    },
+    extraReducers: createExtraReducers(fetchDataForDataSlice),
 });
 
-export default dataSlice.reducer;
+export const pdpPipelineSlice = createSlice({
+    name: 'pdppipeline',
+    initialState,
+    reducers: {},
+    extraReducers: createExtraReducers(fetchDataForPdpPipelineSlice),
+});
+
+export const pdpModelSlice = createSlice({
+    name: 'pdpmodel',
+    initialState,
+    reducers: {},
+    extraReducers: createExtraReducers(fetchDataForPdpModelSlice),
+});
+
+export const alePipelineSlice = createSlice({
+    name: 'alepipeline',
+    initialState,
+    reducers: {},
+    extraReducers: createExtraReducers(fetchDataForAlePipelineSlice),
+});
+
+export const aleModelSlice = createSlice({
+    name: 'alemodel',
+    initialState,
+    reducers: {},
+    extraReducers: createExtraReducers(fetchDataForAleModelSlice),
+});
+
+export const pdp2DPipelineSlice = createSlice({
+    name: 'pdp2dpipeline',
+    initialState,
+    reducers: {},
+    extraReducers: createExtraReducers(fetchDataForPdp2DPipelineSlice),
+});
+
+export const counterfactualsPipelineSlice = createSlice({
+    name: 'counterfactualspipeline',
+    initialState,
+    reducers: {},
+    extraReducers: createExtraReducers(fetchDataForCounterfactualsPipelineSlice),
+});
+
+// Export reducers
+export const dataReducer = dataSlice.reducer;
+export const pdpPipelineReducer = pdpPipelineSlice.reducer;
+export const pdpModelReducer = pdpModelSlice.reducer;
+export const alePipelineReducer = alePipelineSlice.reducer;
+export const aleModelReducer = aleModelSlice.reducer;
+export const pdp2DPipelineReducer = pdp2DPipelineSlice.reducer;
+export const counterfactualsPipelineReducer = counterfactualsPipelineSlice.reducer;

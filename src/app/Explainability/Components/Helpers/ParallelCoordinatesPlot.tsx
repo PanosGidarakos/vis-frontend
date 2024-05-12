@@ -56,20 +56,28 @@ const ParallelCoordinatesPlot = ({ data }) => {
       );
   
       const categoricalKeys = keys.filter(key => !Number.isFinite(data[0][key]));
-      const x = d3.scale.ordinal().rangePoints([0, width], 1).domain(keys);
-      const y = {};
+      const x = d3.scalePoint()
+      .range([0, width])
+      .padding(1)
+      .domain(keys);      const y = {};
   
       keys.forEach((key) => {
         if (categoricalKeys.includes(key)) {
-          y[key] = d3.scale.ordinal().rangePoints([height, 0], 1).domain(d3.set(data.map(d => d[key])).values());
+          y[key] = d3.scalePoint()
+          .range([height, 0])
+          .padding(1)
+          .domain(Array.from(new Set(data.map(d => d[key]))));
         } else {
-          y[key] = d3.scale.linear().range([height, 0]).domain(
-            d3.extent(data, (d) => parseFloat(d[key]))
-          );
+          y[key] = d3.scaleLinear()
+          .range([height, 0])
+          .domain(d3.extent(data, (d) => parseFloat(d[key])));
         }
       });
-  
-      const line = d3.svg.line().defined((d) => !isNaN(d[1])).x((d) => x(d[0])).y((d) => y[d[0]](d[1]));
+      const lineGenerator = d3.line()
+  .defined((d) => !isNaN(d[1]))
+  .x((d) => x(d[0]))
+  .y((d) => y[d[0]](d[1]));
+
       const svg = d3
         .select(svgRef.current)
         .append('svg')
@@ -79,9 +87,9 @@ const ParallelCoordinatesPlot = ({ data }) => {
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
   
-      const color = d3.scale.linear()
-                     .domain(d3.extent(data, function(d) { return d['Cost']; }))
-                     .range(["green", "blue"]);
+        const color = d3.scaleLinear()
+        .domain(d3.extent(data, function(d) { return d['Cost']; }))
+        .range(["green", "blue"]);
   
      svg
       .selectAll('.myPath')
@@ -89,7 +97,7 @@ const ParallelCoordinatesPlot = ({ data }) => {
       .enter()
       .append('path')
       .attr('class', 'myPath')
-      .attr('d', (d) => line(keys.map((key) => [key, parseFloat(d[key])])))
+      .attr('d', (d) => lineGenerator(keys.map((key) => [key, parseFloat(d[key])])))
       .style('fill', 'none')
       .style('stroke', (d) => color(d['Cost']))
       .style('stroke-width', '1.5px') // Make lines more solid
@@ -102,7 +110,9 @@ const ParallelCoordinatesPlot = ({ data }) => {
 
     // Render the vertical heatmap
     const heatmapHeight = height;
-    const colorScale = d3.scale.linear().domain([0, heatmapHeight]).range(["blue", "green"]);
+    const colorScale = d3.scaleLinear()
+  .domain([0, heatmapHeight])
+  .range(["blue", "green"]);
     const heatmap = d3.select(heatmapRef.current)
         .append('svg')
         .attr('class', 'heatmap-container')
@@ -113,7 +123,7 @@ const ParallelCoordinatesPlot = ({ data }) => {
     const numColors = 5;
     const colorStep = heatmapHeight / numColors;
     const costExtent = d3.extent(data, d => d['Cost']);
-    const costScale = d3.scale.linear().domain(costExtent).range([numColors, 1]);
+    const costScale = d3.scaleLinear().domain(costExtent).range([numColors, 1]);
 
 
     for (let i = 0; i < numColors; i++) {
@@ -181,7 +191,7 @@ const ParallelCoordinatesPlot = ({ data }) => {
           .append('g')
           .attr('class', 'axis')
           .attr('transform', 'translate(' + x(key) + ',0)') // Changed y coordinate to 0 for correct positioning
-          .call(d3.svg.axis().scale(y[key]).orient('left'))
+          .call(d3.axisLeft(y[key]))
           .append('text')
           .attr('y', -9)
           .style('text-anchor', 'middle')
@@ -192,7 +202,9 @@ const ParallelCoordinatesPlot = ({ data }) => {
       // Cleanup function to remove the SVG when component unmounts
       svg.selectAll('*').remove();
       heatmap.selectAll('*').remove();
-      chartContainerRef.current.removeEventListener('click', handleContainerClick);
+      if (chartContainerRef.current) {
+        chartContainerRef.current.removeEventListener('click', handleContainerClick);
+      }
     };
   }, [data]);
   

@@ -1,67 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import InteractiveTablePlugin from './InteractiveTablePlugin';
-import SelectHyperParams from './SelectHyperParms';
+import InteractiveTablePlugin from './Helpers/InteractiveTablePlugin';
+import SelectHyperParams from './Selectors/SelectHyperParms';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchDataForCounterfactualsPipelineSlice } from '../../../store/data/dataSlice';
+import { SelectChangeEvent } from '@mui/material';
+
 
 const CounterFactualsTable = () => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
+    const { data, status, error } = useSelector((state) => state.counterfactualspipeline); // Modified useSelector
     const [selectedOption, setSelectedOption] = useState("Model__lr");
+    const [selectedMark, setSelectedMark] = useState("line");
+
+    console.log(data);
 
     useEffect(() => {
-        if (selectedOption.trim() !== "") {
-            handleFetchFeature(selectedOption, "pipeline");
-        }
-    }, [selectedOption]);
-
-    const handleFetchFeature = async (option, xaitype) => {
-        try {
-            setLoading(true);
-            const response = await axios.post(
-                'http://localhost:8080/api/visualization/explainability/i2cat_desktop_features',
-                {
-                    "modelId": "UNSW_NB15_model",
-                    "explainabilityType": xaitype,
-                    "explainabilityMethod": 'counterfactual',
-                    "visualizationType": "line",
-                    "constraints": {},
-                    "additionalParams": {
-                        "feature1": option
-                    }
-                }
-            );
-            setData(response.data);
-            setLoading(false);
-            setError(null);
-        } catch (error) {
-            setError("error");
-            setLoading(false);
-        }
-    };
-
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setSelectedOption(value);
-    };
-
+        dispatch(fetchDataForCounterfactualsPipelineSlice({ feature1: selectedOption, xaitype: "pipeline", method: "counterfactual" })); // Dispatch using the new action creator
+    }, [dispatch, selectedOption]);
     let vegaLiteComponent = null;
 
-    if (!loading && !error && data && data.cfs) {
+    // Define subddata conditionally based on the availability of data
+    if (data) {
+        console.log('datadat',data.cfs);
+        
         const columns = Object.keys(JSON.parse(data.cfs)[0]);
         vegaLiteComponent = <InteractiveTablePlugin data={JSON.parse(data.cfs)} columns={columns} height={0} width={0} tableSize="middle" />;
     }
+    const handleChange = (e: SelectChangeEvent<string>) => {
+        setSelectedOption(e.target.value as string);
+    };
+
+    const handleMarkChange = () => {
+        setSelectedMark((prevMark) => (prevMark === 'line' ? 'bar' : 'line'));
+    };
 
     return (
         <div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <SelectHyperParams selectedOption={selectedOption} handleChange={handleChange} />
-                {loading ? <p>Loading...</p> : data && !error && <div></div>}
-                {error && <p>Error: {error}</p>}
-
-                {selectedOption && vegaLiteComponent}
-
-
+                <SelectHyperParams selectedOption={selectedOption} handleChange={handleChange} />
+                {status === 'loading' && <p>Loading...</p>}
+                {status === 'failed' && <p>Error: {error}</p>}
+                {data && (
+                    <div>
+                        {/* Render additional UI components here */}
+                    </div>
+                )}
+                {/* Render VegaLite component only when data is available */}
+                {data && vegaLiteComponent}
+              
             </div>
         </div>
     );

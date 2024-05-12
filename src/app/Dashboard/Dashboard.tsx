@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className={classes.content}>
       <Sidebar />
-      <DashboardContent />
+      {/* <DashboardContent /> */}
       <Outlet />
     </div>
   );
