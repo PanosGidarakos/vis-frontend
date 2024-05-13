@@ -5,7 +5,7 @@ import { fetchDataForAleModelSlice, fetchDataForAlePipelineSlice, fetchDataForPd
 
 const DataExplainability: React.FC = () => {
   return (<Container fixed>
-    {/* <h1>Pdp Pipeline</h1>
+    <h1>Pdp Pipeline</h1>
     <GenericPlot 
     fetchDataThunk={fetchDataForPdpPipelineSlice} 
     feature1="Model__lr" 
@@ -72,7 +72,7 @@ const DataExplainability: React.FC = () => {
 
 
     
-     */}
+    
      
     
 </Container>);
