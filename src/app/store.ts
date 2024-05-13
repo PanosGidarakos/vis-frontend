@@ -40,7 +40,6 @@ import { combineReducers} from "@reduxjs/toolkit";
 
 import { Action, ThunkAction, combineSlices, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import {CounterFactSlice} from "../store/data/CounterFactSlice";
 import { aleModelReducer, alePipelineReducer, counterfactualsPipelineReducer, dataReducer,pdp2DPipelineReducer,pdpModelReducer,pdpPipelineReducer} from "../store/data/dataSlice";
 
 const rootReducer = combineReducers({
@@ -51,7 +50,6 @@ const rootReducer = combineReducers({
   alemodel:aleModelReducer,
   pdp2dpipeline:pdp2DPipelineReducer,
   counterfactualspipeline:counterfactualsPipelineReducer,
-  // counterFact:CounterFactSlice
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

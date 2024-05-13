@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import {  SelectChangeEvent, Switch, Typography } from '@mui/material';
 import { VegaLite } from 'react-vega';
-import SelectHyperParams from './Selectors/SelectHyperParms';
+import SelectHyperParams from '../Selectors/SelectHyperParms';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDataForAlePipelineSlice } from '../../../store/data/dataSlice';
+import { fetchDataForAlePipelineSlice } from '../../../../store/data/dataSlice';
 
 const AlePipeline = () => {
     const dispatch = useDispatch();

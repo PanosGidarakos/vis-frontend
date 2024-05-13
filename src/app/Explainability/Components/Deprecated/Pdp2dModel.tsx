@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { VegaLite } from 'react-vega';
 import axios from "axios";
-import SelectHyperparamsModel from './Selectors/SelectHyperparamsModel';
+import SelectHyperparamsModel from '../Selectors/SelectHyperparamsModel';
 
 const Pdp2dModel = () => {
     const [data, setData] = useState(null);
