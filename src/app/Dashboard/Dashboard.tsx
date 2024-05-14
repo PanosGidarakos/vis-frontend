@@ -1,7 +1,5 @@
 import React from 'react';
 import { Theme } from '@mui/material/styles';
-import Sidebar from './Sidebar';
-import DashboardContent from './DashboardContent';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Outlet } from 'react-router-dom';
 
@@ -24,8 +22,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className={classes.content}>
-      {/* <Sidebar /> */}
-      {/* <DashboardContent /> */}
       <Outlet />
     </div>
   );

@@ -36,7 +36,7 @@ const CounterFactualsTable = () => {
     return (
         <div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <SelectHyperParams selectedOption={selectedOption} handleChange={handleChange} />
+                {/* <SelectHyperParams selectedOption={selectedOption} handleChange={handleChange} /> */}
                 {status === 'loading' && <p>Loading...</p>}
                 {status === 'failed' && <p>Error: {error}</p>}
                 {data && (

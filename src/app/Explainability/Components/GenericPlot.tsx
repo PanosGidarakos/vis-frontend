@@ -321,8 +321,14 @@ const GenericPlot = ({ fetchDataThunk, feature1, feature2, xaitype, method, xFie
     const [aggregateFunction, setAggregateFunction] = useState(null); // State for aggregate function
     const [searchQuery, setSearchQuery] = useState("Raw"); // State for search query
     const [switchEnabled, setSwitchEnabled] = useState(false); // State to control section visibility
+    
 
     useEffect(() => {
+        if (method === 'pdp2d') {
+            setColorEnabled(true);
+        } else {
+            setColorEnabled(false);
+        }
         const fetchData = async () => {
             setStatus('loading');
             try {

@@ -4,7 +4,7 @@ import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 const SelectHyperParams = ({ selectedOption, handleChange }) => {
     return (
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-simple-select-label">Select Feature</InputLabel>
+            <InputLabel id="demo-simple-select-label">Select a Hyperparameter </InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
