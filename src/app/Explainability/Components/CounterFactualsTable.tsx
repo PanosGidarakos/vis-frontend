@@ -3,7 +3,7 @@ import InteractiveTablePlugin from './Helpers/InteractiveTablePlugin';
 import SelectHyperParams from './Selectors/SelectHyperParms';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchDataForCounterfactualsPipelineSlice } from '../../../store/data/dataSlice';
+import { fetchDataForCounterfactualsPipelineSlice } from '../../../store/data/explainabilitySlice';
 import { SelectChangeEvent } from '@mui/material';
 
 
@@ -13,7 +13,6 @@ const CounterFactualsTable = () => {
     const [selectedOption, setSelectedOption] = useState("Model__lr");
     const [selectedMark, setSelectedMark] = useState("line");
 
-    console.log(data);
 
     useEffect(() => {
         dispatch(fetchDataForCounterfactualsPipelineSlice({ feature1: selectedOption, xaitype: "pipeline", method: "counterfactual" })); // Dispatch using the new action creator
@@ -22,7 +21,6 @@ const CounterFactualsTable = () => {
 
     // Define subddata conditionally based on the availability of data
     if (data) {
-        console.log('datadat',data.cfs);
         
         const columns = Object.keys(JSON.parse(data.cfs)[0]);
         vegaLiteComponent = <InteractiveTablePlugin data={JSON.parse(data.cfs)} columns={columns} height={0} width={0} tableSize="middle" />;

@@ -40,7 +40,7 @@ import { combineReducers} from "@reduxjs/toolkit";
 
 import { Action, ThunkAction, combineSlices, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { aleModelReducer, alePipelineReducer, counterfactualsPipelineReducer, dataReducer,pdp2DPipelineReducer,pdpModelReducer,pdpPipelineReducer} from "../store/data/dataSlice";
+import { aleModelReducer, alePipelineReducer, counterfactualsPipelineReducer, dataReducer,pdp2DPipelineReducer,pdpModelReducer,pdpPipelineReducer} from "../store/data/explainabilitySlice";
 
 const rootReducer = combineReducers({
   data: dataReducer,

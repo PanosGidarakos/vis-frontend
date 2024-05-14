@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {SelectChangeEvent, Switch, Typography } from '@mui/material';
 import { VegaLite } from 'react-vega';
 import SelectHyperparamsModel from '../Selectors/SelectHyperparamsModel';
-import { fetchDataForAleModelSlice, } from '../../../../store/data/dataSlice';
+import { fetchDataForAleModelSlice, } from '../../../../store/data/explainabilitySlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const AleModel = () => {

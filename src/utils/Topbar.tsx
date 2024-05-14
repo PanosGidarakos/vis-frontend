@@ -5,7 +5,7 @@ import SelectOpt from './Select';
 import * as alloptions from './options';
 
 import { useDispatch } from "react-redux";
-import { getData } from "../store/data/dataSlice";
+import { getData } from "../store/data/explainabilitySlice";
 
 
 const useStyles = makeStyles((theme) => ({

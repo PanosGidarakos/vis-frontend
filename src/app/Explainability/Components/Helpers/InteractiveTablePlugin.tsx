@@ -175,7 +175,7 @@ export default function InteractiveTablePlugin(props: InteractiveTablePluginProp
     return (
       <Modal
         title="Counterfactuals"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={closeModal}
         footer={null}
         width={1000}>
@@ -216,7 +216,6 @@ export default function InteractiveTablePlugin(props: InteractiveTablePluginProp
   const closeModal = () => {
     setModalVisible(false);
   };
-  console.log('data sto table mesa ',data)
 
   return (
     <div style={{ textAlign: 'center' }}> {/* Set text alignment to center */}

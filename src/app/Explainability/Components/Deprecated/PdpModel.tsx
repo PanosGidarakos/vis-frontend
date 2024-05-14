@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SelectChangeEvent, Switch, Typography } from '@mui/material';
 import { VegaLite } from 'react-vega';
 import SelectHyperparamsModel from '../Selectors/SelectHyperparamsModel';
-import { fetchDataForPdpModelSlice} from '../../../../store/data/dataSlice';
+import { fetchDataForPdpModelSlice} from '../../../../store/data/explainabilitySlice';
 
 
 const PdpModel = () => {

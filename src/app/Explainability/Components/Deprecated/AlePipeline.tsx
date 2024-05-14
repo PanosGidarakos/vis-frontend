@@ -5,7 +5,7 @@ import {  SelectChangeEvent, Switch, Typography } from '@mui/material';
 import { VegaLite } from 'react-vega';
 import SelectHyperParams from '../Selectors/SelectHyperParms';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDataForAlePipelineSlice } from '../../../../store/data/dataSlice';
+import { fetchDataForAlePipelineSlice } from '../../../../store/data/explainabilitySlice';
 
 const AlePipeline = () => {
     const dispatch = useDispatch();
