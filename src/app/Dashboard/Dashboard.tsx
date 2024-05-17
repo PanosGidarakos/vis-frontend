@@ -2,6 +2,8 @@ import React from 'react';
 import { Theme } from '@mui/material/styles';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Outlet } from 'react-router-dom';
+import DashboardContent from './DashboardContent';
+import Sidebar from './Sidebar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +25,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className={classes.content}>
       <Outlet />
+      <DashboardContent/>
     </div>
   );
 };

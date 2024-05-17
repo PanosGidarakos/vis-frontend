@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import InteractiveTablePlugin from './Helpers/InteractiveTablePlugin';
-import SelectHyperParams from './Selectors/SelectHyperParms';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchDataForCounterfactualsPipelineSlice } from '../../../store/data/explainabilitySlice';
 import { SelectChangeEvent } from '@mui/material';
+import PipelineCounterfactualsPlugin from './Helpers/PipelineCounterfactualsPlugin';
 
 
 const CounterFactualsTable = () => {
@@ -22,8 +22,9 @@ const CounterFactualsTable = () => {
     // Define subddata conditionally based on the availability of data
     if (data) {
         
-        const columns = Object.keys(JSON.parse(data.cfs)[0]);
-        vegaLiteComponent = <InteractiveTablePlugin data={JSON.parse(data.cfs)} columns={columns} height={0} width={0} tableSize="middle" />;
+        const columns = Object.keys(JSON.parse(data.cfss)[0]);
+        console.log(columns);
+        vegaLiteComponent = <PipelineCounterfactualsPlugin data={JSON.parse(data.cfss)} columns={columns} height={0} width={0} tableSize="middle" />;
     }
     const handleChange = (e: SelectChangeEvent<string>) => {
         setSelectedOption(e.target.value as string);

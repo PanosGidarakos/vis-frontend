@@ -2,6 +2,7 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Theme } from 'pretty-format';
+import Sidebar from './Sidebar';
 const drawerWidth = 2*240; // Match this value with the width of your sidebar
 
 
@@ -24,6 +25,7 @@ const DashboardContent: React.FC = () => {
       <div>
         <h1>Welcome to the Dashboard</h1>
       </div>
+
     </main>
   );
 };

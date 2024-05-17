@@ -106,3 +106,26 @@ const DataExplainability: React.FC = () => {
 };
 
 export default DataExplainability;
+
+
+
+
+// import { Container, Grid } from "@mui/material";
+// import CounterFactualsTable from "./Components/CounterFactualsTable";
+// import GenericPlot from "./Components/GenericPlot";
+// import Sidebar from "../Dashboard/Sidebar";
+// import { fetchDataForAleModelSlice, fetchDataForAlePipelineSlice, fetchDataForPdp2DPipelineSlice, fetchDataForPdpModelSlice, fetchDataForPdpPipelineSlice } from "../../store/data/explainabilitySlice";
+
+// const DataExplainability: React.FC = () => {
+//   return (
+//     <Container fixed>
+//         <Grid item xs={12}>
+//           <h2>Misclassification Analysis</h2>
+//           <CounterFactualsTable />
+//         </Grid>
+        
+//     </Container>
+//   );
+// };
+
+// export default DataExplainability;
